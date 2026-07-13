@@ -1,4 +1,10 @@
+import logging
+
 from fastapi import FastAPI
+
+from app.webhooks.router import router as webhook_router
+
+logging.basicConfig(level=logging.INFO)
 
 
 def create_app() -> FastAPI:
@@ -7,6 +13,8 @@ def create_app() -> FastAPI:
     @app.get("/health")
     def health() -> dict[str, str]:
         return {"status": "ok"}
+
+    app.include_router(webhook_router)
 
     return app
 
